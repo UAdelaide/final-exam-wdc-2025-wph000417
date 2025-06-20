@@ -83,7 +83,7 @@ async function initDatabase() {
       WHERE username = 'emma789'
     `);
 
-    // 插入遛狗请求 - 每个INSERT单独执行
+    // insert
     await connection.query(`
       INSERT INTO WalkRequests (dog_id, requested_time, duration_minutes, location, status)
       SELECT d.dog_id, '2025-06-10 08:00:00', 30, 'Parklands', 'open'
@@ -124,9 +124,8 @@ async function initDatabase() {
       WHERE u.username = 'emma789' AND d.name = 'Charlie'
     `);
     
-    // 插入一些遛狗申请和评分用于测试 - 每个INSERT单独执行
+    // test
     await connection.query(`
-      -- 为bobwalker添加遛狗申请并接受
       INSERT INTO WalkApplications (request_id, walker_id, status)
       SELECT r.request_id, u.user_id, 'accepted'
       FROM WalkRequests r
@@ -136,7 +135,7 @@ async function initDatabase() {
     `);
     
     await connection.query(`
-      -- 添加评分
+
       INSERT INTO WalkRatings (request_id, walker_id, owner_id, rating, comments)
       SELECT r.request_id, w.user_id, o.user_id, 4, 'Good service'
       FROM WalkRequests r
@@ -147,7 +146,6 @@ async function initDatabase() {
     `);
     
     await connection.query(`
-      -- 为david456添加遛狗申请并接受另一个请求
       INSERT INTO WalkApplications (request_id, walker_id, status)
       SELECT r.request_id, u.user_id, 'accepted'
       FROM WalkRequests r
@@ -157,7 +155,6 @@ async function initDatabase() {
     `);
     
     await connection.query(`
-      -- 添加另一个评分
       INSERT INTO WalkRatings (request_id, walker_id, owner_id, rating, comments)
       SELECT r.request_id, w.user_id, o.user_id, 5, 'Excellent service'
       FROM WalkRequests r
@@ -174,7 +171,7 @@ async function initDatabase() {
   }
 }
 
-// 路由1：获取所有狗的列表，包括尺寸和主人用户名
+// router1
 app.get('/api/dogs', async (req, res) => {
   try {
     const [rows] = await connection.query(`
@@ -189,7 +186,7 @@ app.get('/api/dogs', async (req, res) => {
   }
 });
 
-// 路由2：获取所有状态为open的遛狗请求
+// router2
 app.get('/api/walkrequests/open', async (req, res) => {
   try {
     const [rows] = await connection.query(`
@@ -212,7 +209,7 @@ app.get('/api/walkrequests/open', async (req, res) => {
   }
 });
 
-// 路由3：获取每个遛狗者的摘要，包括平均评分和已完成的遛狗数量
+// router3
 app.get('/api/walkers/summary', async (req, res) => {
   try {
     const [rows] = await connection.query(`
@@ -236,11 +233,11 @@ app.get('/api/walkers/summary', async (req, res) => {
     res.json(rows);
   } catch (error) {
     console.error('Error fetching walker summary:', error);
-    res.status(500).json({ error: '获取遛狗者摘要失败' });
+    res.status(500).json({ error: '获Failed to load your dogs' });
   }
 });
 
-// 启动服务器
+// open service
 async function startServer() {
   await initDatabase();
   app.listen(PORT, () => {
