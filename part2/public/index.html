@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Dog Walking Service</title>
+  <title>Dog Walking Service - Login</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
@@ -10,19 +10,105 @@
 <body class="bg-light">
 
   <div id="app" class="container py-5">
-    <h1 class="mb-4 text-primary">{{ message }}</h1>
-    <p class="lead">Connect with trusted walkers for your beloved dog!</p>
+    <nav class="navbar navbar-expand-lg navbar-light bg-white rounded shadow-sm mb-4">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="/">Dog Walking Service</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" href="/">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/dogs.html">View All Dogs</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
 
-    <a href="owner-dashboard.html" class="btn btn-outline-primary me-2">Owner Dashboard</a>
-    <a href="walker-dashboard.html" class="btn btn-outline-success">Walker Dashboard</a>
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="card shadow">
+          <div class="card-header bg-primary text-white">
+            <h3 class="mb-0">Login - Dog Walking Service</h3>
+          </div>
+          <div class="card-body">
+            <div v-if="error" class="alert alert-danger">{{ error }}</div>
+            
+            <form @submit.prevent="login">
+              <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input v-model="form.email" type="email" class="form-control" id="email" required>
+              </div>
+              <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input v-model="form.password" type="password" class="form-control" id="password" required>
+              </div>
+              <button type="submit" class="btn btn-primary w-100" :disabled="loading">
+                {{ loading ? 'Logging in...' : 'Login' }}
+              </button>
+            </form>
+            
+            <div class="mt-3 text-center">
+              <p>Test Accounts:</p>
+              <p>Pet Owner: alice@example.com / hashed123</p>
+              <p>Dog Walker: bob@example.com / hashed456</p>
+            </div>
+            
+            <div class="mt-4 text-center">
+              <a href="/dogs.html" class="btn btn-outline-primary">View All Dogs</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <script>
-    const { createApp } = Vue;
+    const { createApp, ref } = Vue;
+    
     createApp({
-      data() {
+      setup() {
+        const form = ref({
+          email: '',
+          password: ''
+        });
+        const error = ref('');
+        const loading = ref(false);
+        
+        async function login() {
+          loading.value = true;
+          error.value = '';
+          
+          try {
+            const res = await fetch('/api/users/login', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(form.value)
+            });
+            
+            const data = await res.json();
+            
+            if (!res.ok) {
+              throw new Error(data.error || 'Login failed');
+            }
+            
+            // Login successful, redirect to appropriate dashboard
+            window.location.href = data.redirectUrl;
+          } catch (err) {
+            error.value = err.message;
+            loading.value = false;
+          }
+        }
+        
         return {
-          message: 'Welcome to the Dog Walking Service!'
+          form,
+          error,
+          loading,
+          login
         };
       }
     }).mount('#app');

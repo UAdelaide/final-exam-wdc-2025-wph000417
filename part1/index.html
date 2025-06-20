@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>DogWalks - Dog Walking Service</title>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <style>
+    /* Using flashing animations and clashing colors */
+    @keyframes blink {
+      0% { background-color: #ff00ff; }
+      25% { background-color: #00ffff; }
+      50% { background-color: #ffff00; }
+      75% { background-color: #00ff00; }
+      100% { background-color: #ff00ff; }
+    }
+    
+    body {
+      font-family: "Comic Sans MS", cursive, sans-serif;
+      background-color: #ffccff;
+      animation: blink 5s infinite;
+      margin: 0;
+      padding: 0;
+    }
+    
+    .container {
+      width: 100%;
+      overflow-x: hidden;
+    }
+    
+    /* Using tiny font and low contrast */
+    header {
+      background-color: #eeeeee;
+      color: #dddddd;
+      padding: 10px;
+      font-size: 8px;
+      text-align: center;
+    }
+    
+    /* Using excessive flashing elements and animations */
+    .marquee {
+      background-color: #ff0000;
+      color: #00ff00;
+      white-space: nowrap;
+      overflow: hidden;
+      box-sizing: content-box;
+    }
+    
+    .marquee p {
+      display: inline-block;
+      padding-left: 100%;
+      animation: marquee 10s linear infinite;
+      font-size: 24px;
+      font-weight: bold;
+    }
+    
+    @keyframes marquee {
+      0% { transform: translate(0, 0); }
+      100% { transform: translate(-100%, 0); }
+    }
+    
+    /* Using excessive colors and inconsistent layout */
+    .content {
+      display: flex;
+      flex-direction: column-reverse;
+      padding: 20px;
+      background-color: #ccffcc;
+    }
+    
+    /* Using tiny click targets */
+    .nav-buttons {
+      display: flex;
+      justify-content: space-around;
+      margin-bottom: 20px;
+    }
+    
+    .nav-button {
+      width: 5px;
+      height: 5px;
+      background-color: #0000ff;
+      color: #ff0000;
+      padding: 2px;
+      font-size: 6px;
+      cursor: pointer;
+      margin: 50px;
+    }
+    
+    /* Using overly complex layout and unnecessary elements */
+    .dog-card {
+      border: 5px dashed #ff00ff;
+      padding: 10px;
+      margin: 10px;
+      background-color: #ffff00;
+      width: 90%;
+      position: relative;
+      transform: rotate(2deg);
+    }
+    
+    /* Using unreasonable image size */
+    .dog-image {
+      width: 95%;
+      height: auto;
+      border: 10px solid #00ffff;
+      transform: skew(10deg, 5deg);
+    }
+    
+    /* Using inconsistent text alignment */
+    .dog-info {
+      text-align: justify;
+      column-count: 3;
+      column-gap: 5px;
+      font-size: 11px;
+      color: #660066;
+      background-color: #ffff99;
+      padding: 5px;
+      margin-top: 10px;
+    }
+    
+    /* Using excessive popups and distracting elements */
+    .popup {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #ff6600;
+      color: #0000ff;
+      padding: 10px;
+      border: 3px solid #000000;
+      z-index: 999;
+      animation: shake 0.5s infinite;
+    }
+    
+    @keyframes shake {
+      0% { transform: translate(1px, 1px) rotate(0deg); }
+      10% { transform: translate(-1px, -2px) rotate(-1deg); }
+      20% { transform: translate(-3px, 0px) rotate(1deg); }
+      30% { transform: translate(3px, 2px) rotate(0deg); }
+      40% { transform: translate(1px, -1px) rotate(1deg); }
+      50% { transform: translate(-1px, 2px) rotate(-1deg); }
+      60% { transform: translate(-3px, 1px) rotate(0deg); }
+      70% { transform: translate(3px, 1px) rotate(-1deg); }
+      80% { transform: translate(-1px, -1px) rotate(1deg); }
+      90% { transform: translate(1px, 2px) rotate(0deg); }
+      100% { transform: translate(1px, -2px) rotate(-1deg); }
+    }
+    
+    /* Using flashing text */
+    .blinking-text {
+      animation: blinkText 0.5s infinite;
+      font-size: 20px;
+      font-weight: bold;
+    }
+    
+    @keyframes blinkText {
+      0% { color: #ff0000; }
+      50% { color: #0000ff; }
+      100% { color: #ff0000; }
+    }
+    
+    /* Using unreadable form elements */
+    .contact-form {
+      margin-top: 20px;
+      background-color: #000000;
+      color: #000099;
+      padding: 10px;
+    }
+    
+    .contact-form input {
+      width: 100%;
+      background-color: #333333;
+      color: #444444;
+      border: none;
+      margin-bottom: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div id="app" class="container">
+    <header>
+      <h1>DogWalks - Dog Walking Service</h1>
+      <p>We are the best dog walking service provider!</p>
+    </header>
+    
+    <div class="marquee">
+      <p>Welcome to DogWalks Dog Walking Service! Register now for a FREE first walk! Act now! Don't miss this opportunity!</p>
+    </div>
+    
+    <div class="nav-buttons">
+      <div class="nav-button" @click="showAlert('Home')">Home</div>
+      <div class="nav-button" @click="showAlert('Services')">Services</div>
+      <div class="nav-button" @click="showAlert('Pricing')">Pricing</div>
+      <div class="nav-button" @click="showAlert('Contact')">Contact</div>
+      <div class="nav-button" @click="showAlert('About')">About</div>
+      <div class="nav-button" @click="showAlert('FAQ')">FAQ</div>
+      <div class="nav-button" @click="showAlert('Blog')">Blog</div>
+      <div class="nav-button" @click="showAlert('Reviews')">Reviews</div>
+      <div class="nav-button" @click="showAlert('Partners')">Partners</div>
+      <div class="nav-button" @click="showAlert('Members')">Members</div>
+    </div>
+    
+    <div class="content">
+      <div class="dog-card">
+        <h2 class="blinking-text">Dog of the Day: {{ dogName }}</h2>
+        <img :src="dogImage" alt="" class="dog-image">
+        <div class="dog-info">
+          <p><b>Name:</b> {{ dogName }}</p>
+          <p><b>Age:</b> {{ dogAge }}</p>
+          <p><b>Breed:</b> {{ dogBreed }}</p>
+          <p><b>Personality:</b> {{ dogPersonality }}</p>
+          <p><b>Likes:</b> {{ dogLikes }}</p>
+          <p><b>Dislikes:</b> {{ dogDislikes }}</p>
+          <p><b>Owner:</b> {{ dogOwner }}</p>
+          <p><b>Walk Time:</b> {{ walkTime }}</p>
+          <p><b>Walk Location:</b> {{ walkLocation }}</p>
+          <p><b>Walk Price:</b> {{ walkPrice }}</p>
+          <p><b>Walk Rating:</b> {{ walkRating }}</p>
+          <p><b>Walk Review:</b> {{ walkReview }}</p>
+          <p><b>Walk History:</b> {{ walkHistory }}</p>
+          <p><b>Health Status:</b> {{ dogHealth }}</p>
+          <p><b>Diet:</b> {{ dogDiet }}</p>
+        </div>
+      </div>
+      
+      <div class="contact-form">
+        <h3>Book a Walk</h3>
+        <form @submit.prevent="submitForm">
+          <input type="text" placeholder="Your Name" v-model="formName">
+          <input type="email" placeholder="Your Email" v-model="formEmail">
+          <input type="text" placeholder="Your Phone" v-model="formPhone">
+          <input type="text" placeholder="Your Address" v-model="formAddress">
+          <input type="text" placeholder="Booking Date" v-model="formDate">
+          <input type="text" placeholder="Booking Time" v-model="formTime">
+          <input type="text" placeholder="Dog Name" v-model="formDogName">
+          <input type="text" placeholder="Dog Breed" v-model="formDogBreed">
+          <input type="text" placeholder="Dog Age" v-model="formDogAge">
+          <input type="text" placeholder="Dog Size" v-model="formDogSize">
+          <input type="text" placeholder="Special Requests" v-model="formSpecialRequests">
+          <input type="submit" value="Submit" style="width: 50px; height: 20px;">
+        </form>
+      </div>
+    </div>
+    
+    <div class="popup" v-if="showPopup">
+      <p>{{ popupMessage }}</p>
+      <button @click="showPopup = false">Close</button>
+    </div>
+    
+    <div class="popup" style="left: 20px; background-color: #00ff00;">
+      <p>Register now for 50% discount!</p>
+      <button>Register</button>
+    </div>
+    
+    <div class="popup" style="top: 20px; background-color: #ffcc00;">
+      <p>Download our APP for more discounts!</p>
+      <button>Download</button>
+    </div>
+  </div>
+
+  <script>
+    const { createApp } = Vue;
+    
+    createApp({
+      data() {
+        return {
+          dogImage: '',
+          dogName: 'Buddy',
+          dogAge: '3 years',
+          dogBreed: 'Labrador',
+          dogPersonality: 'Playful, Friendly, Smart',
+          dogLikes: 'Walking, Playing ball, Swimming',
+          dogDislikes: 'Baths, Hair dryers',
+          dogOwner: 'Mr. Smith',
+          walkTime: 'Every day at 8AM and 4PM',
+          walkLocation: 'Central Park',
+          walkPrice: '$50/hour',
+          walkRating: '4.9/5',
+          walkReview: 'Excellent service, Buddy loves the walker!',
+          walkHistory: '35 walks completed',
+          dogHealth: 'Good health, all vaccines up to date',
+          dogDiet: 'Premium dog food, three meals daily',
+          showPopup: true,
+          popupMessage: 'Welcome to our website! Register now for 50% discount!',
+          formName: '',
+          formEmail: '',
+          formPhone: '',
+          formAddress: '',
+          formDate: '',
+          formTime: '',
+          formDogName: '',
+          formDogBreed: '',
+          formDogAge: '',
+          formDogSize: '',
+          formSpecialRequests: ''
+        }
+      },
+      methods: {
+        fetchDogImage() {
+          fetch('https://dog.ceo/api/breeds/image/random')
+            .then(response => response.json())
+            .then(data => {
+              this.dogImage = data.message;
+            })
+            .catch(error => {
+              console.error('Error fetching dog image:', error);
+              this.dogImage = 'https://via.placeholder.com/400x300?text=Dog+Image+Not+Available';
+            });
+        },
+        showAlert(section) {
+          alert('You clicked the ' + section + ' button!');
+          this.popupMessage = 'Are you interested in ' + section + '? Contact us now!';
+          this.showPopup = true;
+        },
+        submitForm() {
+          alert('Form submitted successfully! We will contact you soon!');
+          // Reset form
+          this.formName = '';
+          this.formEmail = '';
+          this.formPhone = '';
+          this.formAddress = '';
+          this.formDate = '';
+          this.formTime = '';
+          this.formDogName = '';
+          this.formDogBreed = '';
+          this.formDogAge = '';
+          this.formDogSize = '';
+          this.formSpecialRequests = '';
+        }
+      },
+      mounted() {
+        this.fetchDogImage();
+        
+        // Add more popups and distracting elements
+        setInterval(() => {
+          if(Math.random() > 0.7) {
+            this.showPopup = true;
+            this.popupMessage = 'Limited time offer! Book today for special discount!';
+          }
+        }, 10000);
+      }
+    }).mount('#app');
+  </script>
+</body>
+</html> 
